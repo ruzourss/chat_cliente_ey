@@ -6,8 +6,6 @@
 package ui;
 
 import java.io.IOException;
-import java.net.ConnectException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -19,22 +17,14 @@ import javax.swing.JOptionPane;
 public class Principal extends javax.swing.JFrame {
     //declaracion de las variables 
     private String nick;
-    
-
-//Creacion del hilo al llamar a la conexion
-    ConexionControl hiloControl = new ConexionControl();
-    ConexionMensajes hiloMensajes =new ConexionMensajes();
+    //Creacion del hilo al llamar a la conexion
+  
+    private ConexionMensajes conexionMensajes;
 
     public Principal() {
 
         initComponents();
         this.setLocationRelativeTo(null);
-
-        //inicializacion del hilo
-        hiloControl.start();
-        hiloMensajes.start();
-        JOptionPane.showMessageDialog(rootPane, "Conexion Establecida");
-
     }
 
     /**
@@ -118,31 +108,49 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldNickActionPerformed
 
     private void jButtonConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConectarActionPerformed
+        
+        Chat chat = new Chat();
+        //inicializacion del hilo
+        //hiloControl.start();
+        conexionMensajes = new ConexionMensajes(chat.getjTextAreaPanel(),jTextFieldNick,this,chat);
+        conexionMensajes.start();
+        
         try {
-            //enviamos el nick del jtextArea:
-            String nick=jTextFieldNick.getText().toString();
-            //devuelve un check
-            boolean check=hiloMensajes.comprobarNick(nick);
-
-            
-            if(check=true){
-                //mostramos que el nick es correcto
-                jLabelMensajes.setText("Nick Correcto...Logeado");
-                
-                //cerramos en menu
-                this.setVisible(false);
-                //entramos en el chat
-                Chat jChat= new Chat();
-                jChat.setVisible(true);
-                
-            }else{
-                //nick incorrecto
-                jLabelMensajes.setText("Nick Incorrecto");
-                
-            }
-        } catch (IOException ex) {
+            conexionMensajes.join();
+        } catch (InterruptedException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        if(conexionMensajes.getConexion().isConnected()){
+            
+                
+        }
+        
+//        try {
+//            //enviamos el nick del jtextArea:
+//            String nick=jTextFieldNick.getText().toString();
+//            //devuelve un check
+//            boolean check=conexionMensajes.comprobarNick(nick);
+//
+//            
+//            if(check==true){
+//                //mostramos que el nick es correcto
+//                jLabelMensajes.setText("Nick Correcto...Logeado");
+//                
+//                //cerramos en menu
+//                this.setVisible(false);
+//                //entramos en el chat
+//                Chat jChat= new Chat();
+//                jChat.setVisible(true);
+//                
+//            }else{
+//                //nick incorrecto
+//                jLabelMensajes.setText("Nick Incorrecto");
+//                
+//            }
+//        } catch (IOException ex) {
+//            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+//        }
 
     }//GEN-LAST:event_jButtonConectarActionPerformed
 

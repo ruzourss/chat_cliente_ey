@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ui;
 
 import javax.swing.ImageIcon;
@@ -34,23 +29,20 @@ public class Chat extends javax.swing.JFrame {
     private void initComponents() {
 
         JTextAreaMensaje = new javax.swing.JTextArea();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        textAreaChat = new java.awt.TextArea();
         list1 = new java.awt.List();
         jPanelEmoticon = new javax.swing.JPanel();
         jButtonSad = new javax.swing.JButton();
         jButtonCool = new javax.swing.JButton();
         jButtonSmile = new javax.swing.JButton();
         jButtonEnviar = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextAreaPanel = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(650, 524));
 
         JTextAreaMensaje.setColumns(20);
         JTextAreaMensaje.setRows(5);
-
-        textAreaChat.setEditable(false);
-        jScrollPane1.setViewportView(textAreaChat);
 
         jButtonSad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui/images/sad.png"))); // NOI18N
         jButtonSad.addActionListener(new java.awt.event.ActionListener() {
@@ -99,6 +91,10 @@ public class Chat extends javax.swing.JFrame {
             }
         });
 
+        jTextAreaPanel.setColumns(20);
+        jTextAreaPanel.setRows(5);
+        jScrollPane2.setViewportView(jTextAreaPanel);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -108,8 +104,10 @@ public class Chat extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
-                            .addComponent(jPanelEmoticon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jPanelEmoticon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(list1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
@@ -117,16 +115,19 @@ public class Chat extends javax.swing.JFrame {
                         .addComponent(JTextAreaMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButtonEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 189, Short.MAX_VALUE)))
+                        .addGap(0, 89, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(list1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(51, Short.MAX_VALUE)
+                        .addComponent(list1, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addComponent(jScrollPane2)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanelEmoticon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -159,11 +160,11 @@ public class Chat extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonSmileActionPerformed
 
     private void jButtonEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnviarActionPerformed
-        String Mensaje;
-        Mensaje=textAreaChat.getText();
-        Mensaje=Mensaje+JTextAreaMensaje.getText()+"\n";
-        textAreaChat.setText(Mensaje);
-        JTextAreaMensaje.setText("");
+//        String Mensaje;
+//        Mensaje=JTextAreaMensaje.getText();
+//        Mensaje=Mensaje+JTextAreaMensaje.getText()+"\n";
+//        getTextAreaChat().setText(Mensaje);
+//        JTextAreaMensaje.setText("");
         
         
     }//GEN-LAST:event_jButtonEnviarActionPerformed
@@ -211,8 +212,24 @@ public class Chat extends javax.swing.JFrame {
     private javax.swing.JButton jButtonSad;
     private javax.swing.JButton jButtonSmile;
     private javax.swing.JPanel jPanelEmoticon;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea jTextAreaPanel;
     private java.awt.List list1;
-    private java.awt.TextArea textAreaChat;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * @return the jTextAreaPanel
+     */
+    public javax.swing.JTextArea getjTextAreaPanel() {
+        return jTextAreaPanel;
+    }
+
+    /**
+     * @param jTextAreaPanel the jTextAreaPanel to set
+     */
+    public void setjTextAreaPanel(javax.swing.JTextArea jTextAreaPanel) {
+        this.jTextAreaPanel = jTextAreaPanel;
+    }
+
+   
 }
