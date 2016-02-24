@@ -7,16 +7,20 @@ import javax.swing.ImageIcon;
  * @author JuanJoseMoya
  */
 public class Chat extends javax.swing.JFrame {
-
+    
+    private hiloIO iO;
     /**
      * Creates new form Panel
      */
-    public Chat() {
+    public Chat(hiloIO iO) {
         initComponents();
         this.setLocationRelativeTo(null);
         ImageIcon smile = new ImageIcon("src/ui/images/sonrisa.png");
         ImageIcon sad = new ImageIcon("src/ui/images/sad.png");
         ImageIcon cool = new ImageIcon("src/ui/images/cool.png");
+        this.iO=iO;
+        JTextAreaMensaje.setLineWrap(true);
+        jTextAreaPanel.setLineWrap(true);
     }
 
     /**
@@ -28,35 +32,41 @@ public class Chat extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        JTextAreaMensaje = new javax.swing.JTextArea();
-        list1 = new java.awt.List();
-        jPanelEmoticon = new javax.swing.JPanel();
-        jButtonSad = new javax.swing.JButton();
-        jButtonCool = new javax.swing.JButton();
-        jButtonSmile = new javax.swing.JButton();
-        jButtonEnviar = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextAreaPanel = new javax.swing.JTextArea();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jListConectados = new javax.swing.JList();
+        JTextAreaMensaje = new javax.swing.JTextArea();
+        jButtonSmile = new javax.swing.JButton();
+        jButtonCool = new javax.swing.JButton();
+        jButtonSad = new javax.swing.JButton();
+        jButtonEnviar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(650, 524));
+        setPreferredSize(new java.awt.Dimension(450, 419));
+
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jTextAreaPanel.setEditable(false);
+        jTextAreaPanel.setColumns(20);
+        jTextAreaPanel.setRows(5);
+        jScrollPane2.setViewportView(jTextAreaPanel);
+
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, 285));
+
+        jListConectados.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = {};
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(jListConectados);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 0, 111, 285));
 
         JTextAreaMensaje.setColumns(20);
         JTextAreaMensaje.setRows(5);
-
-        jButtonSad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui/images/sad.png"))); // NOI18N
-        jButtonSad.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonSadActionPerformed(evt);
-            }
-        });
-
-        jButtonCool.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui/images/cool.png"))); // NOI18N
-        jButtonCool.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCoolActionPerformed(evt);
-            }
-        });
+        jPanel1.add(JTextAreaMensaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 330, 446, 47));
 
         jButtonSmile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui/images/sonrisa.png"))); // NOI18N
         jButtonSmile.addActionListener(new java.awt.event.ActionListener() {
@@ -64,25 +74,23 @@ public class Chat extends javax.swing.JFrame {
                 jButtonSmileActionPerformed(evt);
             }
         });
+        jPanel1.add(jButtonSmile, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 290, 46, 35));
 
-        javax.swing.GroupLayout jPanelEmoticonLayout = new javax.swing.GroupLayout(jPanelEmoticon);
-        jPanelEmoticon.setLayout(jPanelEmoticonLayout);
-        jPanelEmoticonLayout.setHorizontalGroup(
-            jPanelEmoticonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelEmoticonLayout.createSequentialGroup()
-                .addComponent(jButtonSmile, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonCool, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonSad, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        jPanelEmoticonLayout.setVerticalGroup(
-            jPanelEmoticonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-            .addComponent(jButtonSmile, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jButtonCool, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jButtonSad, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+        jButtonCool.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui/images/cool.png"))); // NOI18N
+        jButtonCool.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCoolActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButtonCool, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 290, 46, 35));
+
+        jButtonSad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui/images/sad.png"))); // NOI18N
+        jButtonSad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSadActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButtonSad, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 290, 46, 35));
 
         jButtonEnviar.setText("Enviar");
         jButtonEnviar.addActionListener(new java.awt.event.ActionListener() {
@@ -90,51 +98,22 @@ public class Chat extends javax.swing.JFrame {
                 jButtonEnviarActionPerformed(evt);
             }
         });
-
-        jTextAreaPanel.setColumns(20);
-        jTextAreaPanel.setRows(5);
-        jScrollPane2.setViewportView(jTextAreaPanel);
+        jPanel1.add(jButtonEnviar, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 330, 111, 47));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanelEmoticon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(list1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(JTextAreaMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 89, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addGap(37, 37, 37)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 622, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(51, Short.MAX_VALUE)
-                        .addComponent(list1, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(jScrollPane2)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelEmoticon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButtonEnviar, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
-                    .addComponent(JTextAreaMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(82, 82, 82))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -160,61 +139,21 @@ public class Chat extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonSmileActionPerformed
 
     private void jButtonEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnviarActionPerformed
-//        String Mensaje;
-//        Mensaje=JTextAreaMensaje.getText();
-//        Mensaje=Mensaje+JTextAreaMensaje.getText()+"\n";
-//        getTextAreaChat().setText(Mensaje);
-//        JTextAreaMensaje.setText("");
-        
-        
+        iO.enviarMensaje(JTextAreaMensaje.getText());
     }//GEN-LAST:event_jButtonEnviarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Chat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Chat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Chat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Chat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Chat().setVisible(true);
-            }
-        });
-    }
-
+ 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea JTextAreaMensaje;
     private javax.swing.JButton jButtonCool;
     private javax.swing.JButton jButtonEnviar;
     private javax.swing.JButton jButtonSad;
     private javax.swing.JButton jButtonSmile;
-    private javax.swing.JPanel jPanelEmoticon;
+    private javax.swing.JList jListConectados;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextAreaPanel;
-    private java.awt.List list1;
     // End of variables declaration//GEN-END:variables
 
     /**
@@ -230,6 +169,22 @@ public class Chat extends javax.swing.JFrame {
     public void setjTextAreaPanel(javax.swing.JTextArea jTextAreaPanel) {
         this.jTextAreaPanel = jTextAreaPanel;
     }
+
+    /**
+     * @return the jListConectados
+     */
+    public javax.swing.JList getjListConectados() {
+        return jListConectados;
+    }
+
+    /**
+     * @param jListConectados the jListConectados to set
+     */
+    public void setjListConectados(javax.swing.JList jListConectados) {
+        this.jListConectados = jListConectados;
+    }
+
+   
 
    
 }

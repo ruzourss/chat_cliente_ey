@@ -1,5 +1,6 @@
 package ui;
 
+import com.sun.imageio.plugins.jpeg.JPEG;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -7,9 +8,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 /**
  *
@@ -17,32 +15,26 @@ import javax.swing.JTextField;
  */
 public class hiloIO extends Thread{
     
-    private JTextArea area;
     private ObjectInputStream in;
     private ObjectOutputStream out;
     private Socket canal;
-    private JTextField nick;
     private boolean sesion;
     private ArrayList<String> historial;
-    private JFrame ventanaLogin;
-    private JFrame ventanaPrincipal;
+    private final Principal principal;
+    private Chat Chat;
 
-    public hiloIO() {
-    }
-
-    public hiloIO(JTextArea area, Socket canal,JTextField nick,JFrame ventanaLogin,JFrame ventanaPrincipal) {
-        this.area = area;
+    public hiloIO(Socket canal,Principal principal) {
         this.canal = canal;
-        this.nick=nick;
         sesion=true;
         historial= new ArrayList<>();
+        this.principal=principal;
     }
     
     
     @Override
     public void run() {
        obtenerCanales();
-       
+       controlDeFlujos();
     }
     
     private void obtenerCanales(){
@@ -55,40 +47,51 @@ public class hiloIO extends Thread{
     }
     
     
-    public void controlDeFlujos(){
+    private void controlDeFlujos(){
+        Chat = new Chat(this);
         try {         
+            out.writeUTF(estados.SEND_NICK);
+            out.flush();
             while(sesion){
-                out.writeUTF(estados.SEND_NICK);
-                out.flush();
                 switch(in.readUTF()){
                 case estados.GET_NICK:
-                    out.writeUTF(nick.getText());
+                    out.writeUTF(principal.getjTextFieldNick().getText());
                     out.flush();
+                    System.out.println("Envio nick");
                     break;
                 case estados.NICK_OK:
                     out.writeUTF(estados.GET_RECORD);
                     out.flush();
+                    System.out.println("Dame el historial");
                     //a la espera de recibir el historial
                     historial = (ArrayList<String>) in.readObject();
+                    System.out.println("Recibo historial");
+                    cargaHistorial(historial);
                     //aviso al servidor de que le voy a enviar mensajes
                     out.writeUTF(estados.SEND_MESSAGES);
                     out.flush();
+                    System.out.println("aviso de que voy enviar mensajes");
                     break;
                 case estados.GET_MESSAGES:
-                    ventanaLogin.setVisible(false);
-                    ventanaPrincipal.setVisible(true);
-                    
-                    
-                    
+                    //en caso de que ha llegado en este estado vamos a lanzar el otro hilo que realize la 
+                    //conexión por el puerto de control
+                    new ConexionControl(Chat.getjListConectados()).start();
+                    System.out.println("preparado para enviar mensajes");
+                    principal.setVisible(false);
+                    Chat.setVisible(true);
+                    //dejamos a este hilo que este siempre recibiendo los mensajes
+                    leerMensajes();
                     break;
                 case estados.NICK_ERROR:
-                    
+                    principal.getjLabelError().setText("Nick repetido");
+                    System.out.println("Error con el nick");
+                    sesion=false;
+                    break;
+                default:
+                    System.out.println("No se puedo leer el dato");
                     break;
                 }
             }
-            
-            
-            
         } catch (IOException ex) {
             Logger.getLogger(hiloIO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -103,12 +106,30 @@ public class hiloIO extends Thread{
         try {
             while(sesion){
                 String mensajeRecibido = (String) in.readObject();
-                area.append(mensajeRecibido);
+                Chat.getjTextAreaPanel().append(mensajeRecibido+"\n");
             }
         } catch (IOException ex) {
             Logger.getLogger(hiloIO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(hiloIO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void enviarMensaje(String mensaje){
+        try {
+            out.writeObject(mensaje);
+            out.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(hiloIO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    /**
+     * Método que carga el historial de mensajes y lo muestra en la ventana principal
+     * @param historico el array con los mensajes
+     */
+    private void cargaHistorial(ArrayList<String> historico){
+        for(int i=0;i<historico.size();i++){
+            Chat.getjTextAreaPanel().append(historico.get(i)+"\n");
         }
     }
     

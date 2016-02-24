@@ -1,15 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ui;
-
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-
 /**
  *
  * @author JuanJoseMoya
@@ -20,6 +9,8 @@ public class Principal extends javax.swing.JFrame {
     //Creacion del hilo al llamar a la conexion
   
     private ConexionMensajes conexionMensajes;
+    private ConexionControl conexionControl;
+   
 
     public Principal() {
 
@@ -41,16 +32,11 @@ public class Principal extends javax.swing.JFrame {
         jButtonConectar = new javax.swing.JButton();
         jLabelMensajes = new javax.swing.JLabel();
         jLabelIcono = new javax.swing.JLabel();
+        jLabelError = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Nick");
-
-        jTextFieldNick.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldNickActionPerformed(evt);
-            }
-        });
 
         jButtonConectar.setText("Conectar");
         jButtonConectar.addActionListener(new java.awt.event.ActionListener() {
@@ -61,6 +47,9 @@ public class Principal extends javax.swing.JFrame {
 
         jLabelIcono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui/images/Hey.gif"))); // NOI18N
 
+        jLabelError.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jLabelError.setForeground(new java.awt.Color(204, 0, 51));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -68,21 +57,23 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(208, 208, 208)
-                        .addComponent(jButtonConectar))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(193, 193, 193)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabelMensajes, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
-                                .addComponent(jLabelIcono))))
+                                .addComponent(jLabelIcono)))
+                        .addGap(0, 182, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(149, 149, 149)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextFieldNick, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(177, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButtonConectar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextFieldNick, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabelError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -92,7 +83,8 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldNick, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addComponent(jLabel1)
+                    .addComponent(jLabelError, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButtonConectar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
@@ -103,99 +95,56 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextFieldNickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNickActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldNickActionPerformed
-
     private void jButtonConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConectarActionPerformed
-        
-        Chat chat = new Chat();
-        //inicializacion del hilo
-        //hiloControl.start();
-        conexionMensajes = new ConexionMensajes(chat.getjTextAreaPanel(),jTextFieldNick,this,chat);
+
+        conexionMensajes = new ConexionMensajes(this);
         conexionMensajes.start();
         
-        try {
-            conexionMensajes.join();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
         
-        if(conexionMensajes.getConexion().isConnected()){
-            
-                
-        }
-        
-//        try {
-//            //enviamos el nick del jtextArea:
-//            String nick=jTextFieldNick.getText().toString();
-//            //devuelve un check
-//            boolean check=conexionMensajes.comprobarNick(nick);
-//
-//            
-//            if(check==true){
-//                //mostramos que el nick es correcto
-//                jLabelMensajes.setText("Nick Correcto...Logeado");
-//                
-//                //cerramos en menu
-//                this.setVisible(false);
-//                //entramos en el chat
-//                Chat jChat= new Chat();
-//                jChat.setVisible(true);
-//                
-//            }else{
-//                //nick incorrecto
-//                jLabelMensajes.setText("Nick Incorrecto");
-//                
-//            }
-//        } catch (IOException ex) {
-//            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-
     }//GEN-LAST:event_jButtonConectarActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-
-                new Principal().setVisible(true);
-
-            }
-        });
+    public static void main(String args[]) {    
+        Principal p = new Principal();
+        p.setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonConectar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabelError;
     private javax.swing.JLabel jLabelIcono;
     private javax.swing.JLabel jLabelMensajes;
     private javax.swing.JTextField jTextFieldNick;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * @return the jTextFieldNick
+     */
+    public javax.swing.JTextField getjTextFieldNick() {
+        return jTextFieldNick;
+    }
+
+    /**
+     * @param jTextFieldNick the jTextFieldNick to set
+     */
+    public void setjTextFieldNick(javax.swing.JTextField jTextFieldNick) {
+        this.jTextFieldNick = jTextFieldNick;
+    }
+
+    /**
+     * @return the jLabelError
+     */
+    public javax.swing.JLabel getjLabelError() {
+        return jLabelError;
+    }
+
+    /**
+     * @param jLabelError the jLabelError to set
+     */
+    public void setjLabelError(javax.swing.JLabel jLabelError) {
+        this.jLabelError = jLabelError;
+    }
 }
