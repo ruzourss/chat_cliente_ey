@@ -21,6 +21,7 @@ public class ConexionControl extends Thread {
     private ObjectInputStream in;
     private ArrayList<String> conectados;
     private JList lista;
+    
 
     public ConexionControl(JList lista) {
         this.lista=lista;
@@ -33,8 +34,8 @@ public class ConexionControl extends Thread {
         try {
             skControl = new Socket(host, puertoControl);
             System.out.println("Se ha estabelido la conexión de control");
-            in = new ObjectInputStream(skControl.getInputStream());
             while(true){
+                in = new ObjectInputStream(skControl.getInputStream());
                 conectados = (ArrayList<String>) in.readObject();
                 lista.setListData(conectados.toArray());
             }
@@ -48,15 +49,6 @@ public class ConexionControl extends Thread {
     public void run() {
         serverContect();
     }
-    
-    //metodo que esta siempre para pedir informacion
-    
-    //Metodo que ejecute el enviar 
 }
     
-    //crear la  clase conexion en un hilo
-
-    
-    //atributos socket , object outupustream e imputStream, 
-    //imputStream en un hilo
 
