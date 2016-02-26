@@ -1,7 +1,6 @@
 package ui;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -18,16 +17,13 @@ public class ConexionControl extends Thread {
     private Socket skControl;
     private final String host="localhost";
     private final int  puertoControl=9900;
-    private ObjectInputStream in;
     private ArrayList<String> conectados;
     private JList lista;
-    
+    private inObject in;
 
     public ConexionControl(JList lista) {
         this.lista=lista;
     }
-    
-    
     
     //creacion del metodo de conexion con el servidor
     public void serverContect() {
@@ -35,7 +31,7 @@ public class ConexionControl extends Thread {
             skControl = new Socket(host, puertoControl);
             System.out.println("Se ha estabelido la conexión de control");
             while(true){
-                in = new ObjectInputStream(skControl.getInputStream());
+                in = new inObject(skControl.getInputStream());
                 conectados = (ArrayList<String>) in.readObject();
                 lista.setListData(conectados.toArray());
             }

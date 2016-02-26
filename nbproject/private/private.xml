@@ -11,9 +11,9 @@
         </group>
         <group name="ACCESOADATOS">
             <file>file:/C:/Users/Tautvydas/Desktop/Proyecto_Chat_Cliente/src/ui/ConexionControl.java</file>
-            <file>file:/C:/Users/Tautvydas/Desktop/Proyecto_Chat_Cliente/src/ui/Chat.java</file>
             <file>file:/C:/Users/Tautvydas/Desktop/Proyecto_Chat_Cliente/src/ui/Principal.java</file>
             <file>file:/C:/Users/Tautvydas/Desktop/Proyecto_Chat_Cliente/src/ui/ConexionMensajes.java</file>
+            <file>file:/C:/Users/Tautvydas/Desktop/Proyecto_Chat_Cliente/src/ui/estados.java</file>
             <file>file:/C:/Users/Tautvydas/Desktop/Proyecto_Chat_Cliente/src/ui/hiloIO.java</file>
         </group>
     </open-files>
