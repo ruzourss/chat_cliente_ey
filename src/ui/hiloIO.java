@@ -1,13 +1,10 @@
 package ui;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+import javax.swing.JOptionPane;
 /**
  *
  * @author Tautvydas
@@ -41,13 +38,14 @@ public class hiloIO extends Thread{
             in = new ObjectInputStream(canal.getInputStream());
             out = new ObjectOutputStream(canal.getOutputStream());
         } catch (IOException ex) {
-            Logger.getLogger(hiloIO.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(principal, "No se pudo conectar con el servidor");
+            System.exit(-1);
         } 
     }
     
     
     private void controlDeFlujos(){
-        Chat = new Chat(this);
+        Chat = new Chat(this,principal.getjTextFieldNick().getText());
         try {         
             out.writeUTF(estados.SEND_NICK);
             out.flush();
@@ -72,9 +70,6 @@ public class hiloIO extends Thread{
                     System.out.println("aviso de que voy enviar mensajes");
                     break;
                 case estados.GET_MESSAGES:
-                    //en caso de que ha llegado en este estado vamos a lanzar el otro hilo que realize la 
-                    //conexión por el puerto de control
-                    new ConexionControl(Chat.getjListConectados(),this.getName()).start();
                     System.out.println("preparado para enviar mensajes");
                     principal.setVisible(false);
                     Chat.setVisible(true);
@@ -92,12 +87,12 @@ public class hiloIO extends Thread{
                 }
             }
         } catch (IOException ex) {
-            Logger.getLogger(hiloIO.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(principal, "No se pudo conectar con el servidor");
+            System.exit(-1);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(hiloIO.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(principal, "No se pudo conectar con el servidor");
+            System.exit(-1);
         }
-        
-        
     }
     
     
@@ -106,11 +101,14 @@ public class hiloIO extends Thread{
             while(sesion){
                 String mensajeRecibido = (String) in.readObject();
                 Chat.getjTextAreaPanel().append(mensajeRecibido+"\n");
+                Chat.getjTextAreaPanel().setCaretPosition(Chat.getjTextAreaPanel().getDocument().getLength());
             }
         } catch (IOException ex) {
-            Logger.getLogger(hiloIO.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(principal, "Se ha producido un error con la conxion con el servidor");
+            System.exit(-1);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(hiloIO.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(principal, "Se ha producido un error con la conxion con el servidor");
+            System.exit(-1);
         }
     }
     
@@ -119,7 +117,8 @@ public class hiloIO extends Thread{
             out.writeObject(mensaje);
             out.flush();
         } catch (IOException ex) {
-            Logger.getLogger(hiloIO.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(principal, "Se ha producido un error con la conxion con el servidor");
+            System.exit(-1);
         }
     }
     /**

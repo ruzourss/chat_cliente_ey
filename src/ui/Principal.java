@@ -5,11 +5,7 @@ package ui;
  */
 public class Principal extends javax.swing.JFrame {
     //declaracion de las variables 
-    private String nick;
-    //Creacion del hilo al llamar a la conexion
-  
     private ConexionMensajes conexionMensajes;
-    private ConexionControl conexionControl;
    
 
     public Principal() {
