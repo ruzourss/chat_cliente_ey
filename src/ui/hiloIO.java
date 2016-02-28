@@ -1,6 +1,5 @@
 package ui;
 
-import com.sun.imageio.plugins.jpeg.JPEG;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
