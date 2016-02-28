@@ -12,5 +12,7 @@ public class estados {
     public static final String NICK_OK = "0x0006";
     public static final String GET_RECORD = "0x0007";
     public static final String SEND_MESSAGES = "0x0008";
-    public static final String SEND_USERS = "0x0009";
+    public static final String SEND_USER = "0x0009";
+    public static final String GET_USER = "0x0010";
+    public static final String LISTEN = "0x0011";
 }

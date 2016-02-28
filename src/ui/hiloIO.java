@@ -75,7 +75,7 @@ public class hiloIO extends Thread{
                 case estados.GET_MESSAGES:
                     //en caso de que ha llegado en este estado vamos a lanzar el otro hilo que realize la 
                     //conexión por el puerto de control
-                    new ConexionControl(Chat.getjListConectados()).start();
+                    new ConexionControl(Chat.getjListConectados(),this.getName()).start();
                     System.out.println("preparado para enviar mensajes");
                     principal.setVisible(false);
                     Chat.setVisible(true);
