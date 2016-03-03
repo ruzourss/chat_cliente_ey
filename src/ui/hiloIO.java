@@ -5,9 +5,13 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import ui.control.control;
 /**
  *
  * @author Tautvydas
+ * Clase que extiende de hilo y crea un hilo en cada cliente
+ * Esta clase  contiene los metodos necesarios para la conexion con el servidor
+ * (Logueo y pass)
  */
 public class hiloIO extends Thread{
     
@@ -18,7 +22,11 @@ public class hiloIO extends Thread{
     private ArrayList<String> historial;
     private final Principal principal;
     private Chat Chat;
-
+    /**
+     * Cosntructor de la clase que recibe el socket y el jframe Principal
+     * @param canal Recibe el Socket de la comunicacion
+     * @param principal  Panel Jframe
+     */
     public hiloIO(Socket canal,Principal principal) {
         this.canal = canal;
         sesion=true;
@@ -32,7 +40,10 @@ public class hiloIO extends Thread{
        obtenerCanales();
        controlDeFlujos();
     }
-    
+    /**
+     * Metodo por el cual obtenemos los socket de comunicacion
+     * para la comunicacion
+     */
     private void obtenerCanales(){
         try {
             in = new ObjectInputStream(canal.getInputStream());
@@ -43,20 +54,31 @@ public class hiloIO extends Thread{
         } 
     }
     
-    
+    /**
+     * metodo que controla los flujos de informacion desde el cliente hacia el
+     * servidor
+     */
     private void controlDeFlujos(){
+        //creacion de un objeto chat del que recogemos el nick
         Chat = new Chat(this,principal.getjTextFieldNick().getText());
-        try {         
+        try {       
+            //enviamos estadp de envio del nick
             out.writeUTF(estados.SEND_NICK);
             out.flush();
+            //mientras la sesion este activa
             while(sesion){
+                //recibimos los estados del servidor
                 switch(in.readUTF()){
+                //en el caso que recibamos obtener nick
                 case estados.GET_NICK:
+                    //recogemos el nick del textfield y lo enviamos
                     out.writeUTF(principal.getjTextFieldNick().getText());
                     out.flush();
                     System.out.println("Envio nick");
                     break;
+                    //en el caso de que el nick este correcto
                 case estados.NICK_OK:
+                    //enviamos señal de que envie el historial
                     out.writeUTF(estados.GET_RECORD);
                     out.flush();
                     System.out.println("Dame el historial");
@@ -71,6 +93,7 @@ public class hiloIO extends Thread{
                     break;
                 case estados.GET_MESSAGES:
                     System.out.println("preparado para enviar mensajes");
+                    new control(Chat.getjListUsuarios()).start();
                     principal.setVisible(false);
                     Chat.setVisible(true);
                     //dejamos a este hilo que este siempre recibiendo los mensajes

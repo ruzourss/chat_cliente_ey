@@ -3,14 +3,16 @@ package ui;
 import java.awt.event.KeyEvent;
 
 /**
- *
+ * clase que contiene la ventana principal del chat
  * @author JuanJoseMoya
  */
 public class Chat extends javax.swing.JFrame {
     
     private hiloIO iO;
     /**
-     * Creates new form Panel
+     * constructor que recibe
+     * @param iO hilo para el envio y recepción de mensajes
+     * @param name nick del usuari conectado
      */
     public Chat(hiloIO iO,String name) {
         initComponents();
@@ -40,9 +42,12 @@ public class Chat extends javax.swing.JFrame {
         jLabelMensajeError = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         JTextAreaMensaje = new javax.swing.JTextArea();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jListUsuarios = new javax.swing.JList();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(655, 511));
+        setPreferredSize(new java.awt.Dimension(762, 495));
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -99,6 +104,15 @@ public class Chat extends javax.swing.JFrame {
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 340, 400, 80));
 
+        jListUsuarios.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = {};
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane3.setViewportView(jListUsuarios);
+
+        jLabel1.setText("Usuarios conectados");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -106,13 +120,21 @@ public class Chat extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 29, Short.MAX_VALUE))
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -140,7 +162,11 @@ public class Chat extends javax.swing.JFrame {
     private void jButtonEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnviarActionPerformed
         envioMensaje();
     }//GEN-LAST:event_jButtonEnviarActionPerformed
-
+    /**
+     * Control de datos, al darle enter con el teclado 
+     * enviamos el texto
+     * @param evt evento ejecutado
+     */
     private void JTextAreaMensajeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_JTextAreaMensajeKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_ENTER){
             if(JTextAreaMensaje.getText().isEmpty()){
@@ -160,10 +186,13 @@ public class Chat extends javax.swing.JFrame {
     private javax.swing.JButton jButtonEnviar;
     private javax.swing.JButton jButtonSad;
     private javax.swing.JButton jButtonSmile;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelMensajeError;
+    private javax.swing.JList jListUsuarios;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTextAreaPanel;
     // End of variables declaration//GEN-END:variables
 
@@ -180,7 +209,11 @@ public class Chat extends javax.swing.JFrame {
     public void setjTextAreaPanel(javax.swing.JTextArea jTextAreaPanel) {
         this.jTextAreaPanel = jTextAreaPanel;
     }  
-    
+    /**
+     * realizamos un control de errores, si esta vacio el campo
+     * avisamos al usuario con un mensaje en rojo y si no enviamos el
+     * mensaje
+     */
     private void envioMensaje(){
         if(JTextAreaMensaje.getText().isEmpty()){
             jLabelMensajeError.setText("Introduce un mensaje a enviar");
@@ -189,5 +222,12 @@ public class Chat extends javax.swing.JFrame {
            iO.enviarMensaje(JTextAreaMensaje.getText().trim());
            JTextAreaMensaje.setText("");
         }
+    }
+
+    /**
+     * @return the jListUsuarios
+     */
+    public javax.swing.JList getjListUsuarios() {
+        return jListUsuarios;
     }
 }
