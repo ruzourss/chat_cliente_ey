@@ -1,7 +1,7 @@
 package ui;
 
 /**
- *
+ *clase que contiene los estados que puede tener nuestra comunicación
  */
 public class estados {
     public static final String SEND_NICK = "0x0001";

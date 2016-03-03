@@ -3,13 +3,11 @@ package ui;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 /**
- *
+ * clase que realiza la conexión por el puerto 
+ * de mensajería
  * @author JuanJoseMoya
  */
 public class ConexionMensajes extends Thread {
@@ -40,7 +38,8 @@ public class ConexionMensajes extends Thread {
     }
 
     /**
-     * Método que se conecta al servidor del chat
+     * Método que se conecta al servidor del chat, si se ha podido
+     * establecer la comnucación se lanza un hilo nuevo
      */
     public void serverContect() {
 
