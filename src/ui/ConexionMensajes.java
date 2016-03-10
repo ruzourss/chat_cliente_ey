@@ -15,7 +15,7 @@ public class ConexionMensajes extends Thread {
     //atributos de la clase
 
     private Socket conexion;
-    private final String host = "192.168.5.102";
+    private final String host = "192.168.107.52";
     private final int puertoMesajeria = 9000;
     private boolean correcto = true;
     private final ArrayList<String> historial;
