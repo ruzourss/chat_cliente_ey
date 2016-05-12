@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JList;
+import ui.Direcciones;
 import ui.inObject;
 
 /**
@@ -36,7 +37,7 @@ public class control extends Thread{
      */
     private void iniConexion(){
         try {
-            canal = new Socket("localhost",9900);
+            canal = new Socket(Direcciones.HOST,Direcciones.PORT_CONTROL);
             in=new inObject(canal.getInputStream());
             while(true){
                 obtenerLista();
